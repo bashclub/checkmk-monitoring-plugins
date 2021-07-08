@@ -2,7 +2,7 @@
 A collection of monitoring plugins for checkmk >= 2.0
 
 ## running-kernel (Checkmk Agent local check)
-Compares the running kernel with the latest installed kernel and will change state to WARN if a newer kernel version is installed and the system needs a reboot.
+Compares the running kernel with the latest installed kernel on Debian based systems and will change state to WARN if a newer kernel version is installed and the system needs a reboot.
 
 #### Installation
 Just execute the following command to install the plugin on your machine to monitor:
