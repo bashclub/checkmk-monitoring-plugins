@@ -35,7 +35,7 @@ if [[ "$uname" == *"-pve" ]]; then
 else
     filter=linux-image-$major_version
 fi
-latest_kernel=$(dpkg --get-selections | grep $filter | grep -v deinstall | tail -1 | cut -f1 | cut -d'-' -f3-)
+latest_kernel=$(dpkg --get-selections | grep $filter | grep -v deinstall | sort -V | tail -1 | cut -f1 | cut -d'-' -f3-)
 if [[ "$latest_kernel" == "$uname" ]]; then
     echo -e "0 \"Running Kernel\" version_ok=0;1;|running_kernel=$uname;;|latest_installed_kernel=$latest_kernel;; Currently running Kernel up-to-date - OK"
 else
