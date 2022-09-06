@@ -15,10 +15,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,10 +32,16 @@ uname=$(uname -r)
 major_version=${uname:0:3}
 if [[ "$uname" == *"-pve" ]]; then
     filter=pve-kernel-$major_version
+elif [[ "$uname" == *"-mvebu" ]]; then
+    latest_kernel=$(dpkg -l | grep -m1 linux-image-current-mvebu | rev | cut -d ' ' -f2 | rev)
 else
     filter=linux-image-$major_version
 fi
-latest_kernel=$(dpkg --get-selections | grep $filter | grep -E "\sinstall" | sort -V | tail -1 | cut -f1 | cut -d'-' -f3-)
+
+if [[ "$uname" != *"-mvebu" ]]; then
+    latest_kernel=$(dpkg --get-selections | grep $filter | grep -E "\sinstall" | sort -V | tail -1 | cut -f1 | cut -d'-' -f3-)
+fi
+
 if [[ "$latest_kernel" == "$uname" ]]; then
     echo -e "0 \"Running Kernel\" version_ok=0;1;|running_kernel=$uname;;|latest_installed_kernel=$latest_kernel;; Currently running Kernel up-to-date - OK"
 else
