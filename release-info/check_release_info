@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+#
+# Prints the debian/ubuntu release info and sets state by codename
+# The package 'lsb-release' is required for this check.
 
 import subprocess
 
@@ -6,9 +9,15 @@ ok_list = ['bullseye', 'bookworm', 'trixie', 'forky', 'jammy', 'focal']
 warn_list = ['buster', 'bionic', 'xenial']
 
 cmd = ["/usr/bin/lsb_release", "-ircs"]
+
 stdout, stderr = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 dist, version, codename, null = stdout.decode('utf-8').split('\n')
 
-state: int = 0 if codename in ok_list else (1 if codename in warn_list else 2)
+if codename in ok_list:
+    state = 0
+elif codename in warn_list:
+    state = 1
+else:
+    state = 2
 
-print (f'{state} "Distribution Info" - {dist} {version} {codename}')
+print ('%s "Distribution Info" - %s %s %s' % (state, dist, version, codename))
