@@ -12,6 +12,6 @@ chmod +x /usr/lib/check_mk_agent/local/check_running_kernel
 ```
 The check will be detected automatically by CheckMK Discovery.
 
- Author
+# Author
 ### Thorsten Spille
 [<img src="https://storage.ko-fi.com/cdn/brandasset/kofi_s_tag_dark.png" rel="Support me on Ko-Fi">](https://ko-fi.com/thorakel)
