@@ -1,0 +1,1 @@
+_MEMORYCHECK=$(dmidecode --type 16 | grep "Error Correction Type"); echo $(echo $?) \"ECC Memory\" - ${_MEMORYCHECK##*Error Correction Type:};unset _MEMORYCHECK
