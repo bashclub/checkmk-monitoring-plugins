@@ -31,7 +31,11 @@
 uname=$(uname -r)
 major_version=${uname:0:3}
 if [[ "$uname" == *"-pve" ]]; then
-    filter=pve-kernel-$major_version
+    if [[ "$(lsb_release -cs  2> /dev/null)" == "bookworm" ]]; then
+        filter=proxmox-kernel-$major_version
+    else
+        filter=pve-kernel-$major_version
+    fi
 elif [[ "$uname" == *"-mvebu" ]]; then
     latest_kernel=$(dpkg -l | grep -m1 linux-image-current-mvebu | rev | cut -d ' ' -f2 | rev)
 else
