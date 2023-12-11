@@ -30,9 +30,9 @@
 
 uname=$(uname -r)
 major_version=${uname:0:3}
-if [[ "$uname" == *"-pve" ]]; then
+if [[ "$uname" == *"-pve"* ]]; then
     if [[ "$(lsb_release -cs  2> /dev/null)" == "bookworm" ]]; then
-        if [[ "$major-version" == "6.5" ]]; then
+        if [[ "$major_version" == "6.5" ]]; then
             filter="proxmox-kernel-${major_version}.*-signed"
             uname=${uname}-signed
         else
