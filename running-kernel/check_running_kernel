@@ -32,18 +32,22 @@ uname=$(uname -r)
 major_version=${uname:0:3}
 if [[ "$uname" == *"-pve" ]]; then
     if [[ "$(lsb_release -cs  2> /dev/null)" == "bookworm" ]]; then
-        filter=proxmox-kernel-$major_version
+        if [[ "$major-version" == "6.5" ]]; then
+            filter="proxmox-kernel-${major_version}.*-signed"
+        else
+            filter="proxmox-kernel-${major_version}"
+        fi
     else
-        filter=pve-kernel-$major_version
+        filter="pve-kernel-${major_version}"
     fi
 elif [[ "$uname" == *"-mvebu" ]]; then
     latest_kernel=$(dpkg -l | grep -m1 linux-image-current-mvebu | rev | cut -d ' ' -f2 | rev)
 else
-    filter=linux-image-$major_version
+    filter="linux-image-$major_version"
 fi
 
 if [[ "$uname" != *"-mvebu" ]]; then
-    latest_kernel=$(dpkg --get-selections | grep $filter | grep -E "\sinstall" | sort -V | tail -1 | cut -f1 | cut -d'-' -f3-)
+    latest_kernel=$(dpkg --get-selections | grep -E $filter | grep -E "\sinstall" | sort -V | tail -1 | cut -f1 | cut -d'-' -f3-)
 fi
 
 if [[ "$latest_kernel" == "$uname" ]]; then
